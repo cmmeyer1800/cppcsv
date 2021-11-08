@@ -2,8 +2,6 @@
 #include "csv.h"
 
 int main(){
-    CSV test("/Users/collin/code/cppcsv/test.txt");
-    for(auto l : test.getLines()){
-        std::cout << l;
-    }
+    CSV test("/home/collin/code/cppcsv/gpa.csv");
+    test.print();
 }
