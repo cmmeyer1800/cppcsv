@@ -4,6 +4,11 @@
 #include <sstream>
 #include <iostream>
 
+
+/*
+    Constructor initializes file stream to CSV and
+    then calls parseFile() to break it into dataset
+*/
 CSV::CSV(std::string fileName) : _file(fileName){
     parseFile();
 }
@@ -35,18 +40,35 @@ void CSV::parseFile(){
     }
 }
 
+/*
+    Params: None
+    Return: Specific row of CSV by using array access operator.
+    Action: None
+*/
 std::vector<std::string> & CSV::operator[](size_t idx){
     return _csv.at(idx);
 }
 
+/*
+    Params: None
+    Return: CSV as vector of vectors of strings.
+    Action: None
+*/
 std::vector<std::vector<std::string>> & CSV::getCSV(){
     return _csv;
 }
 
+/*
+    Params: None
+    Return: None
+    Action: Prints the CSV file to console with space
+            seperating row elements and newlines seperating
+            rows.
+*/
 void CSV::print(){
     for(auto r : _csv){
         for(auto c : r){
-            std::cout << c << std::endl;
+            std::cout << c << " ";
         }
         std::cout << std::endl;
     }
