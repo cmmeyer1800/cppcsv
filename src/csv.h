@@ -8,6 +8,7 @@ class CSV{
         std::ifstream _file;
         std::vector<std::vector<std::string>> _csv;
         void parseFile();
+        std::vector<std::string> rowParse(std::string);
 
     public:
 

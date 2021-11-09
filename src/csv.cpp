@@ -25,18 +25,11 @@ void CSV::parseFile(){
     if(_file){
         std::string line;
         while (std::getline(_file, line)){
-            std::vector<std::string> vl;
-            std::stringstream ss(line);
-            while(ss.good()){
-                std::string substr;
-                getline(ss, substr, ',');
-                vl.push_back(substr);
-            }
-            _csv.push_back(vl);
+            _csv.push_back(rowParse(line));
         }
     }
     else{
-        std::cout << "Fail reading failed" << std::endl;
+        std::cout << "File reading failed" << std::endl;
     }
 }
 
@@ -47,6 +40,44 @@ void CSV::parseFile(){
 */
 std::vector<std::string> & CSV::operator[](size_t idx){
     return _csv.at(idx);
+}
+
+/*
+    Params: None
+    Return: Vector of strings
+    Action: Parses lines into vector of string seperated by commas
+*/
+std::vector<std::string> CSV::rowParse(std::string rowString){
+    std::vector<std::string> rowVector;
+    std::vector<int> indices;
+
+    //  While loop pushes comma indices to indices vector if they
+    //      are not inside a set of quotes.
+    size_t idx = 0;
+    bool inQuotes = false;
+    while(idx < rowString.size()){
+        if(rowString[idx] == '"'){
+            inQuotes = !inQuotes;
+        }
+        else if(rowString[idx] == ','){
+            if(!inQuotes){
+                indices.push_back(idx);
+            }
+        }
+        idx++;
+    }
+    // Now we take these indices and use them to get the substrings we want.
+    for(size_t i = 0; i < indices.size(); i++){
+        if(i == 0){
+            rowVector.push_back(rowString.substr(0, indices[0]));
+        }
+        else{
+            rowVector.push_back(rowString.substr(indices[i-1]+1, indices[i]-indices[i-1]-1));
+        }
+    }
+    rowVector.push_back(rowString.substr(indices[indices.size()-1]+1));
+
+    return rowVector;
 }
 
 /*
@@ -68,7 +99,7 @@ std::vector<std::vector<std::string>> & CSV::getCSV(){
 void CSV::print(){
     for(auto r : _csv){
         for(auto c : r){
-            std::cout << c << " ";
+            std::cout << c << "|";
         }
         std::cout << std::endl;
     }
