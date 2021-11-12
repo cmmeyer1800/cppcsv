@@ -1,7 +1,5 @@
 #include "csv.h"
 #include <string>
-#include <fstream>
-#include <sstream>
 #include <iostream>
 
 
@@ -12,6 +10,7 @@
 CSV::CSV(std::string fileName) : _file(fileName){
     parseFile();
 }
+
 
 /*
     Params: None
@@ -33,6 +32,7 @@ void CSV::parseFile(){
     }
 }
 
+
 /*
     Params: None
     Return: Specific row of CSV by using array access operator.
@@ -41,6 +41,7 @@ void CSV::parseFile(){
 std::vector<std::string> & CSV::operator[](size_t idx){
     return _csv.at(idx);
 }
+
 
 /*
     Params: None
@@ -80,6 +81,7 @@ std::vector<std::string> CSV::rowParse(std::string rowString){
     return rowVector;
 }
 
+
 /*
     Params: None
     Return: CSV as vector of vectors of strings.
@@ -88,6 +90,7 @@ std::vector<std::string> CSV::rowParse(std::string rowString){
 std::vector<std::vector<std::string>> & CSV::getCSV(){
     return _csv;
 }
+
 
 /*
     Params: None
